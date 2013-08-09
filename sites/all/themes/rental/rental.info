@@ -39,3 +39,4 @@ scripts[] = js/convertix/main.js
 
 settings[toggle_name] = 0
 settings[toggle_search] = 1
+settings[toggle_favicon] = 0
