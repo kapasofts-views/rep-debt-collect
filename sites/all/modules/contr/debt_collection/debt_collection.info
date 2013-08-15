@@ -1,0 +1,7 @@
+name = Debt Collection
+description = forms and all related to wantmybucksback.com
+core = 7.x
+;version = 7.x-0.1-dev ;to show up in the admin ui
+package = KapaSoft
+files[] = debt_collection.module
+;dependencies = module1

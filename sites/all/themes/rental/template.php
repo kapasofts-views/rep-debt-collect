@@ -9,7 +9,7 @@ function rental_preprocess_html(&$vars, $hook) {
         ->execute()
         ->fetchCol();
     //load the configurations
-    $configurationNode = node_load($nid_config);
+    $configurationNode = node_load($nid_config[0]);
     $interfaceConfig = array();
 
     if(!empty($configurationNode->field_driver_url['und'][0]['value'])){

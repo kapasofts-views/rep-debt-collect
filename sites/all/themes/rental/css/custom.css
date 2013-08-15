@@ -56,3 +56,46 @@ a.signup-button:hover {
 .logo{
     width: 400px;
 }
+
+#edit-events textarea{
+    height: 10px;
+}
+
+#edit-obligations textarea{
+    height: 10px;
+}
+textarea#edit-other-notes{
+    height: 100px;
+}
+
+ul.breadcrumb li{
+    font-size: 12px;
+}
+ul.breadcrumb li a{
+    color: black;
+}
+
+fieldset{
+    /*border:inherit;*/
+    /*font:inherit;*/
+    /*margin:inherit;*/
+}
+
+legend{
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: -moz-use-text-color -moz-use-text-color #E5E5E5;
+    border-image: none;
+    border-style: none none solid;
+    border-width: 0 0 1px;
+    color: #333333;
+    display: block;
+    font-size: 21px;
+    line-height: 40px;
+    margin-bottom: 20px;
+    padding: 0;
+    width: 100%;
+
+}

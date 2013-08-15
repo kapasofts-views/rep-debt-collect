@@ -1,0 +1,251 @@
+<?php
+/**
+ * Created by JetBrains PhpStorm.
+ * User: maxit
+ * Date: 8/13/13
+ * Time: 6:39 PM
+ * To change this template use File | Settings | File Templates.
+ */
+
+/**
+ *@file
+ *Custom functionally for debt collection wantmybucksback.com
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function debt_collection_menu() {
+    $items['form'] = array(
+        'title' => 'Publication Info',
+        'description' => 'Collecting Info About Publication',
+        'page callback' => 'debt_collection_publication_page',
+//        'page arguments' => array('fruit_simple_form'),
+        'access callback' => TRUE,
+    );
+    return $items;
+}
+
+/**
+ * A simple form.
+ */
+function collect_publication_info_form($form, &$form_submit) {
+
+    $form['publisher'] = array(
+        '#title' => 'Contact Info',
+        '#type' => 'fieldset',
+        '#collapsible' => TRUE,
+        '#collapsed' => FALSE,
+    );
+    $form['publisher']['publisher_first_name'] = array(
+        '#title' => t('First Name'),
+        '#type' => 'textfield',
+        '#required' => TRUE,
+        '#description' => t(''),
+    );
+
+    $form['publisher']['publisher_last_name'] = array(
+        '#title' => t('Last Name'),
+        '#type' => 'textfield',
+        '#required' => TRUE,
+        '#description' => t(''),
+    );
+
+    $form['publisher']['publisher_email'] = array(
+        '#title' => t('Email'),
+        '#type' => 'textfield',
+        '#required' => TRUE,
+        '#description' => t(''),
+    );
+
+    $form['publisher']['package'] = array(
+        '#title' => t('Which plan do you choose?'),
+        '#type' => 'radios',
+        '#options' => array('basic' => t('Basic - $75'), 'plus' => t('Plus - $125'), 'unlimited' => t('Unlimited - $200')),
+        '#required' => TRUE,
+    );
+
+    $form['debtor'] = array(
+        '#title' => 'About Debtor',
+        '#type' => 'fieldset',
+        '#collapsible' => TRUE,
+        '#collapsed' => FALSE,
+    );
+
+    $form['debtor']['debtor_first_name'] = array(
+        '#title' => t('First Name'),
+        '#type' => 'textfield',
+        '#required' => TRUE,
+        '#description' => t('(first name of debtor)'),
+    );
+    $form['debtor']['debtor_last_name'] = array(
+        '#title' => t('Last Name'),
+        '#type' => 'textfield',
+        '#required' => TRUE,
+        '#description' => t('(last name of debtor)'),
+    );
+    $form['debtor']['date_of_birth_debtor'] = array(
+        '#title' => t('Date of Birth'),
+        '#type' => 'textfield',
+        '#required' => FALSE,
+        '#description' => t('(date of birth for debtor if known - July 6, 1980)'),
+    );
+    $form['debtor']['city_of_residence_debtor'] = array(
+        '#title' => t('City of Residency'),
+        '#type' => 'textfield',
+        '#required' => FALSE,
+        '#description' => t('(city and state/country of debtor residency  if known - Minneapolis, MN)'),
+    );
+
+    $form['debtor']['work_place_debtor'] = array(
+        '#title' => t('Work Place'),
+        '#type' => 'textfield',
+        '#required' => FALSE,
+        '#description' => t('(work place for debtor if known)'),
+    );
+
+    $form['events'] = array(
+        '#title' => 'History of Events Leading To Current Situation',
+        '#type' => 'fieldset',
+        '#collapsible' => TRUE,
+        '#collapsed' => FALSE,
+    );
+
+    $form['events']['event-one'] = array(
+        '#title' => t(''),
+        '#type' => 'textarea',
+        '#rows' => '1',
+        '#field_prefix' => t('1. '),
+        '#required' => FALSE,
+        '#maxlength' => 256,
+        '#description' => t('(i.e. Jun 11, 2010 John Anderson borrowed money or John Anderson signed rental agreement and moved in our apartment )'),
+    );
+    $form['events']['event-two'] = array(
+        '#title' => t(''),
+        '#type' => 'textarea',
+        '#rows' => '1',
+        '#field_prefix' => t('2. '),
+        '#required' => FALSE,
+        '#maxlength' => 256,
+        '#description' => t('(i.e. July 20, 2011 John Anderson failed to repay loan as agreed or John Anderson failed to make rent payment )'),
+    );
+    $form['events']['event-three'] = array(
+        '#title' => t(''),
+        '#type' => 'textarea',
+        '#rows' => '1',
+        '#field_prefix' => t('3. '),
+        '#required' => FALSE,
+        '#maxlength' => 256,
+        '#description' => t('(i.e. Aug 13, 2012 John Anderson stopped responding to our requests repay money or John Anderson moves out apartment while late on two rent payments )'),
+    );
+
+    $form['obligations'] = array(
+        '#title' => 'Financial Obligations of Debtor',
+        '#type' => 'fieldset',
+        '#collapsible' => TRUE,
+        '#collapsed' => FALSE,
+    );
+    $form['obligations']['financial-obligations-one'] = array(
+        '#title' => t(''),
+        '#type' => 'textarea',
+        '#rows' => '1',
+        '#field_prefix' => t('1. '),
+        '#required' => FALSE,
+        '#description' => t('(i.e. John Anderson failed repay loan in amount of $2234.00 or John Anderson owes two last rent payments total of $2234.00 )'),
+    );
+    $form['obligations']['financial-obligations-two'] = array(
+        '#title' => t(''),
+        '#type' => 'textarea',
+        '#rows' => '1',
+        '#field_prefix' => t('2. '),
+        '#required' => FALSE,
+        '#description' => t('(i.e. John Anderson owes in interest and fees total of $250.44 or John Anderson has unpaid electricity bill in amount of $189.00)'),
+    );
+    $form['obligations']['financial-obligations-three'] = array(
+        '#title' => t(''),
+        '#type' => 'textarea',
+        '#rows' => '1',
+        '#field_prefix' => t('3. '),
+        '#required' => FALSE,
+        '#description' => t('(i.e. John Anderson owes fee for this publication in amount of $125.00 )'),
+    );
+
+
+    $form['total_amount_owed'] = array(
+        '#title' => t('Total Money Owed'),
+        '#type' => 'textfield',
+        '#required' => TRUE,
+        '#description' => t('(total money owed to you in dollars like 2005.00)'),
+        '#field_prefix' => t('$'),
+        '#maxlength' => 10,
+        '#size' => 6,
+    );
+
+    $form['other_notes'] = array(
+        '#title' => t('Comments'),
+        '#rows' => '3',
+        '#type' => 'textarea',
+        '#required' => FALSE,
+        '#description' => t('(your comments are welcome. please, let us know if there is anything else we should include? )'),
+    );
+
+
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => 'Submit',
+    );
+  return $form;
+}
+
+/**
+ * Page demonstrating embedding a form on a page.
+ */
+function debt_collection_publication_page() {
+    $build = array(
+        'header_text' => array(
+            '#type' => 'markup',
+            '#markup' => '<p class="lead">' . t('Please, fill out this form, so the publication can be created.') . '</p>',
+        ),
+        'example_form' => drupal_get_form('collect_publication_info_form'),
+    );
+    return $build;
+}
+
+function collect_publication_info_form_submit($form, &$form_state) {
+    // Create a node object, and add node properties.
+    $newNode = new stdClass;//or (object) NULL
+    $newNode->type = 'publication';
+    $newNode->title = $form['debtor']['debtor_first_name']['#value'].' '.$form['debtor']['debtor_last_name']['#value'].' Owes '. $form['publisher']['publisher_first_name']['#value']. ' '. $form['publisher']['publisher_last_name']['#value'] .'- Publication';
+    $newNode->language = 'und';//or LANGUAGE_NONE or language code if Locale module is enabled
+    $newNode->uid = 0;//or any id you wish
+    node_object_prepare($newNode);
+
+//    $newNode->created = strtotime("now");
+//    $newNode->changed = strtotime("now");
+//    $newNode->status = 1;
+//    $newNode->comment = 0;
+//    $newNode->promote = 0;
+//    $newNode->moderate = 0;
+//    $newNode->sticky = 0;
+    $newNode->field_publisher_first_name['und'][0]['value'] = $form['publisher']['publisher_first_name']['#value'];
+    $newNode->field_publisher_last_name['und'][0]['value'] = $form['publisher']['publisher_last_name']['#value'];
+    $newNode->field_publisher_email['und'][0]['value'] = $form['publisher']['publisher_email']['#value'];
+    $newNode->field_plan['und'][0]['value'] = $form['publisher']['package']['#value'];
+
+    $newNode->field_first_name_debtor['und'][0]['value'] = $form['debtor']['debtor_first_name']['#value'];
+    $newNode->field_last_name_debtor['und'][0]['value'] = $form['debtor']['debtor_last_name']['#value'];
+    $newNode->field_date_of_birth_debtor['und'][0]['value'] = $form['debtor']['date_of_birth_debtor']['#value'];
+    $newNode->field_city_of_residence_debtor['und'][0]['value'] = $form['debtor']['city_of_residence_debtor']['#value'];
+    $newNode->field_work_place_debtor['und'][0]['value'] = $form['debtor']['work_place_debtor']['#value'];
+
+    $newNode->field_facts['und'][0]['value'] = '1. '.$form['events']['event-one']['#value']."\n2. ".$form['events']['event-two']['#value']."\n3. ".$form['events']['event-three']['#value'];
+    $newNode->field_financial_obligations['und'][0]['value'] = '1. '.$form['obligations']['financial-obligations-one']['#value']."\n2. ".$form['obligations']['financial-obligations-two']['#value']."\n3. ".$form['obligations']['financial-obligations-three']['#value'];
+    $newNode->field_total_amount_owed['und'][0]['value'] = $form['total_amount_owed']['#value'];
+    $newNode->field_other_notes['und'][0]['value'] = $form['other_notes']['#value'];
+
+    // Display a message upon successful submission.
+//    drupal_set_message(t("I like @fruit, too!", array('@fruit' =>$form_state['values']['fruit'])));
+     drupal_set_message(t('Thank you for submitting necessary information for publication. Please, allow us 48h to publish the publication once the payment is received. An email with details on how to make payment will be send to you shortly'));
+    $newNode = node_submit($newNode);
+    node_save($newNode);
+}

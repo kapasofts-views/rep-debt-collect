@@ -1,0 +1,151 @@
+<?php
+
+function debt_collection_install(){
+ //Get localization function for installation as t() may be unavailable
+ $t = get_t();
+
+ //give user feedback
+ drupal_set_message($t('Publication content type installed'));
+
+ //Content type definition
+    $content_type = array(
+        'type' => 'publication',
+        'name' => $t('Publication'),
+        'description' => $t('information containing publication'),
+        'title_label' => $t('Publication title'),
+        'base' => 'node_content',
+        'custom' => TRUE,
+    );
+
+    //set remaining definitions with defaults
+    $node_type = node_type_set_defaults($content_type);
+
+    //save the content type
+    node_type_save($node_type);
+
+    //Add a field for the body
+    node_add_body_field($node_type, $t('Description'));
+
+//candidate fields
+    $fields = array();
+    //create fields
+        $fields['money_owed_total'] = array(
+            'field_name' => 'money_owed_total',
+            'type' => 'number_float',
+            'settings' => array(
+                'max_length' => 8,
+            ),
+        );
+
+        $fields['first_name_debtor'] = array(
+            'field_name' => 'first_name_debtor',
+            'type' => 'text',
+            'settings' => array(
+                'max_length' => 60,
+            ),
+        );
+
+        $fields['last_name_debtor'] = array(
+                    'field_name' => 'last_name_debtor',
+                    'type' => 'text',
+                    'settings' => array(
+                        'max_length' => 60,
+                    ),
+                );
+
+
+        foreach ($fields as $field){
+            field_create_field($field);
+        }
+
+        //Create Field Instances
+        $instances = array();
+
+        $instances['money_owed_total'] = array(
+            'field_name' => 'money_owed_total',
+            'label' => $t('Total money owed to you'),
+            'description' => t('dollar amount in cents like 1000.00'),
+            'widget' => array(
+                'type' => 'text_textfield',
+            ),
+            'required' => TRUE,
+            'settings' => array(
+                //0 - plain text, 1 - text format(plain,html, filter html)
+                'text_processing' => 0,
+            ),
+        );
+
+        $instances['first_name_debtor'] = array(
+            'field_name' => 'first_name_debtor',
+            'label' => $t('Debtor First name'),
+            'description' => $t(''),
+            'widget' => array(
+                'type' => 'text_textfield',
+            ),
+            'settings' => array(
+                'text_processing' => 0,
+            ),
+        );
+
+        $instances['last_name_debtor'] = array(
+                'field_name' => 'last_name_debtor',
+                'label' => $t('Debtor last name'),
+                'description' => $t(''),
+                'widget' => array(
+                    'type' => 'text_textfield',
+                ),
+                'settings' => array(
+                    'text_processing' => 0,
+                ),
+            );
+
+
+
+
+        //create each instance
+        foreach($instances as $instance){
+            $instance['entity_type'] = 'node';
+            $instance['bundle'] = 'publication';
+            field_create_instance($instance);
+        }
+         //give user feedback
+         drupal_set_message($t('Debt Collection module installed and content type - publication created'));
+}
+
+/**
+*implements hook_uninstall()
+*/
+function debt_collection_uninstall() {
+
+    //inform the user of the removal
+    $t = get_t();
+
+    //Get All Node IDs with publication content type
+    $sql_query = 'SELECT nid ';
+    $sql_query .= 'FROM {node} '; //brackets to add table prefixes
+    $sql_query .= 'WHERE {node}.type = :type ';
+    $result = db_query($sql_query, array(':type' => 'publication'));
+
+    //array to hold nids
+    $nids = array();
+    foreach($result as $row){
+        $nids[] = $row->nid;
+    }
+
+    //delete all publication content
+    node_delete_multiple($nids);
+    drupal_set_message($t('Publication content removed'));//inform user
+
+    //Remove all fields and field instances
+    foreach (field_info_instances('node', 'publication') as $field_name => $instance ){
+        field_delete_instance($instance);
+    }
+    drupal_set_message($t('fields and instance all removed'));
+
+    //Delete content type
+    node_type_delete('publication');
+    drupal_set_message($t('Publication content type removed'));
+
+    //Clean up deleted fields
+    field_purge_batch(1000);
+}
