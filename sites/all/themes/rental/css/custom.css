@@ -99,3 +99,36 @@ legend{
     width: 100%;
 
 }
+
+/****feedback form****/
+/*.form-item-rates, .form-item-effectiveness, .form-item-legal-aspect, .form-item-maintenance-fee, .form-item-other{*/
+    /*display: none;*/
+/*}*/
+
+/*.form-item-other textarea{*/
+    /*height: 100px;*/
+/*}*/
+
+#collect-feedback-info-form textarea{
+    height: 100px;
+    max-width:400px ;
+}
+
+#collect-feedback-info-form label{
+    color: darkgray;
+    margin-top: 12px;
+}
+
+#collect-feedback-info-form .control-label{
+    color:#235D79;
+    font-size:14px;
+    margin-top:30px;
+}
+
+#collect-feedback-info-form legend{
+    margin-top: 35px;
+}
+
+.min_margin{
+    margin-bottom: 0px;
+}

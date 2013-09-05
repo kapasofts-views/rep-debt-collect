@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: maxit
- * Date: 8/13/13
- * Time: 6:39 PM
- * To change this template use File | Settings | File Templates.
- */
 
 /**
  *@file
@@ -20,6 +13,13 @@ function debt_collection_menu() {
         'title' => 'Publication Info',
         'description' => 'Collecting Info About Publication',
         'page callback' => 'debt_collection_publication_page',
+//        'page arguments' => array('fruit_simple_form'),
+        'access callback' => TRUE,
+    );
+    $items['feedback'] = array(
+        'title' => 'Feedback',
+        'description' => 'Receiving feedback about the service',
+        'page callback' => 'debt_collection_feedback_page',
 //        'page arguments' => array('fruit_simple_form'),
         'access callback' => TRUE,
     );
@@ -197,6 +197,99 @@ function collect_publication_info_form($form, &$form_submit) {
   return $form;
 }
 
+function collect_feedback_info_form($form, &$form_submit) {
+
+    $form['decision'] = array(
+        '#title' => 'What influenced your decision not to use our service?',
+        '#type' => 'fieldset',
+        '#collapsible' => TRUE,
+        '#collapsed' => FALSE,
+    );
+    $form['decision']['factors'] = array(
+            '#title' => '',
+            '#type' => 'radios',
+            '#options' => array(
+                'setup_fee' => t('The set up fee being too high'),
+                'effectiveness' => t('Lack of belief in the effectiveness for recovering money'),
+                'legal_aspect' => t('Concern with a legal aspect of publicizing debt and information about debtor'),
+                'maintenance_fee' => t('The maintenance fee too high to keep reporting public after one month'),
+                'other' => t('Other')
+            ),
+            '#required' => FALSE,
+            '#ajax' => array(
+                'callback' => 'display_next_questions',
+                'wrapper' => 'next-question',
+            ),
+    );
+
+
+    $form['decision']['next-question'] = array(
+//        '#type' => 'radios',
+        '#type' => 'markup',
+//        '#title' => '',
+        '#prefix' => '<div id="next-question" >',
+        '#suffix' => '</div>',
+//        '#ajax' => array(
+//            'callback' => 'display_other_details',
+//            'wrapper' => 'details-other',
+//        ),
+    );
+
+//    $form['decision']['details-other'] = array(
+//        '#type' => 'markup',
+//        '#prefix' => '<div id="details-other" >',
+//        '#suffix' => '</div>',
+//    );
+
+//    $form['debtor'] = array(
+//        '#title' => 'Who is your debtor?',
+//        '#type' => 'fieldset',
+//        '#collapsible' => TRUE,
+//        '#collapsed' => FALSE,
+//    );
+//
+//    $form['debtor']['info'] = array(
+//        '#title' => '',
+//        '#type' => 'radios',
+////        '#validated' => TRUE,
+//        '#parent' => 'debtor',
+//        '#options' => array(
+//            'friend' => t('Friend or relative'),
+//            'someone_known' => t('Someone I know'),
+//            'tenant' => t('Tenant'),
+//            'business' => t('Some business'),
+//            'other' => t('Other'),
+//        ),
+//        '#limit_validation_errors' => array(),
+//        '#required' => FALSE,
+//    );
+
+    $form['suggestions'] = array(
+        '#title' => 'Any other comments?',
+        '#type' => 'fieldset',
+        '#collapsible' => TRUE,
+        '#collapsed' => FALSE,
+    );
+
+    $form['suggestions']['info'] = array(
+            '#title' => '',
+            '#parent' => 'suggestions',
+            '#type' => 'textarea',
+            '#limit_validation_errors' => array(),
+            '#rows' => '3',
+//            '#value' => 'I guess this value',
+            '#required' => FALSE,
+    );
+
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => 'Submit',
+//        '#submit' => 'collect_feedback_info_form_submit2',
+//        '#validate' => 'collect_feedback_info_form_validate2',
+    );
+    return $form;
+}
+
 /**
  * Page demonstrating embedding a form on a page.
  */
@@ -209,6 +302,86 @@ function debt_collection_publication_page() {
         'example_form' => drupal_get_form('collect_publication_info_form'),
     );
     return $build;
+}
+
+function debt_collection_feedback_page() {
+    $build = array(
+        'header_text' => array(
+            '#type' => 'markup',
+            '#markup' => '<p class="lead min_margin">' . t('Thank you for taking time to share your feedback with us.') . '</p>',
+        ),
+        'example_form' => drupal_get_form('collect_feedback_info_form'),
+    );
+    return $build;
+}
+
+function collect_feedback_info_form_validate($form, &$form_state){
+    //var_dump('validating');
+}
+
+function collect_feedback_info_form_validate2($form, &$form_state){
+    //var_dump('validating');
+}
+
+function collect_feedback_info_form_submit2($form, &$form_state){
+    // Create a node object, and add node properties.
+    $newNode = new stdClass;//or (object) NULL
+    $newNode->type = 'feedback';
+    $newNode->title = 'another feedback';
+    $newNode->language = 'und';//or LANGUAGE_NONE or language code if Locale module is enabled
+    $newNode->uid = 0;//or any id you wish
+    node_object_prepare($newNode);
+
+
+    $newNode->field_factor_general['und'][0]['value'] = $form['decision']['factors']['#value'];
+    $newNode->field_factor_suggestion['und'][0]['value'] = 'test';
+    $newNode->field_who_is_debtor['und'][0]['value'] = $form['debtor']['info']['#value'];
+    $newNode->field_other_comments['und'][0]['value'] =  $form['suggestions']['info']['#value'];
+
+    // Display a message upon successful submission.
+    drupal_set_message(t('Thank you for sharing your feedback. We hope you gives us an opportunity in future!'));
+    $newNode = node_submit($newNode);
+    node_save($newNode);
+}
+
+function collect_feedback_info_form_submit($form, &$form_state){
+    // Create a node object, and add node properties.
+    $newNode = new stdClass;//or (object) NULL
+    $newNode->type = 'feedback';
+    $newNode->title = 'another feedback';
+    $newNode->language = 'und';//or LANGUAGE_NONE or language code if Locale module is enabled
+    $newNode->uid = 0;//or any id you wish
+    node_object_prepare($newNode);
+
+
+    $newNode->field_factor_general['und'][0]['value'] = $form_state['input']['factors'];
+
+    $client_suggestion = '';
+    if(isset($form_state['input']['effectiveness'])){
+        $client_suggestion = $form_state['input']['effectiveness'];
+    }
+    if(isset($form_state['input']['legal_aspect'])){
+        $client_suggestion = $form_state['input']['legal_aspect'];
+    }
+    if(isset($form_state['input']['maintenance_fee'])){
+        $client_suggestion = $form_state['input']['maintenance_fee'];
+    }
+    if(isset($form_state['input']['other'])){
+        $client_suggestion = $form_state['input']['other'];
+    }
+    if(isset($form_state['input']['setup_fee'])){
+        $client_suggestion = $form_state['input']['setup_fee'];
+    }
+
+    $newNode->field_factor_suggestion['und'][0]['value'] = $client_suggestion;
+//    $newNode->field_who_is_debtor['und'][0]['value'] = $form_state['input']['info'];
+
+    $newNode->field_other_comments['und'][0]['value'] =  $form['suggestions']['info']['#value'];
+
+    // Display a message upon successful submission.
+    drupal_set_message(t('Thank you for sharing your feedback. We hope you give us an opportunity in future!'));
+    $newNode = node_submit($newNode);
+    node_save($newNode);
 }
 
 function collect_publication_info_form_submit($form, &$form_state) {
@@ -249,3 +422,110 @@ function collect_publication_info_form_submit($form, &$form_state) {
     $newNode = node_submit($newNode);
     node_save($newNode);
 }
+
+/**
+* implement Ajax callback for feedback form element to display next questions depending user selection
+*/
+
+function display_next_questions($form, $form_state){
+
+    //turn off the ajax callback
+//    unset($form['decision']['factors']['#ajax']);
+
+    $next_question = array();
+    switch($form_state['input']['factors']){
+        case 'setup_fee':
+            $next_question = form_process_radios(
+                array(
+                    '#title' => t('How much should it cost?'),
+                    '#type' => 'radios',
+                    '#name' => 'setup_fee',
+                    '#attributes' => array('name' => 'setup_fee'),
+//                    '#parents' => array('next-question'),
+                    '#options' => array(
+                        'ten' => '$10',
+                        'twenty' => '$20',
+                        'thirty' => '$30',
+                        'forty' => '$40',
+                        'fifty' => '$50',
+                        'sixty' => '$60',
+                        'other' => t('other'),
+                    ),
+                    '#required' => FALSE,
+                )
+            );
+            break;
+        case 'effectiveness':
+            $next_question = form_process_radios(array(
+                '#title' => t('What would better demonstrate the effectiveness?'),
+                '#type' => 'radios',
+                '#attributes' => array('name' => 'effectiveness'),
+                '#options' => array(
+                    'review' => 'A written review from former and current clients',
+                    'video_clients' => 'Video reviews from former and current clients',
+                    'video_founder' => 'A video from founder/CEO',
+                    'links' => 'Links to currently active online reporting publicized by us',
+                    'statistics' => 'Past statistics on number of debtors repaid their debt',
+                    'other' => 'other'
+                ),
+                '#required' => FALSE,
+            ));
+            break;
+        case 'legal_aspect':
+            $next_question = form_process_radios(
+                array(
+                    '#title' => t('What would possibly alliviate the legal concern?'),
+                    '#type' => 'radios',
+                    '#attributes' => array('name' => 'legal_aspect'),
+                    '#options' => array(
+                        'attorney' => 'a disclaimer from an attorney in practice',
+                        'law' => 'copy of a law providing rights to publicize info about uncollected debt along with debtor information',
+                        'company' => 'copy of articles of organization for wantmybucksback.com',
+                        'links' => 'links to currently active online reporting publicized by us',
+                        'legal_aspect_other' => 'other'
+                    ),
+                    '#required' => FALSE,
+            ));
+            break;
+        case 'maintenance_fee':
+            $next_question = form_process_radios(
+                array(
+                    '#title' => t('What should maintenance fee be?'),
+                    '#type' => 'radios',
+                    '#attributes' => array('name' => 'maintenance_fee'),
+                    '#options' => array(
+                        'ten' => '0-$2',
+                        'twenty' => '$3-$5',
+                        'thirty' => '$6-$8',
+                        'forty' => '$9-$11',
+                        'other' => t('other'),
+                    ),
+                    '#required' => FALSE,
+                )
+            );
+            break;
+        case 'other':
+            $next_question = array(
+                '#title' => t('Would you, please, elaborate'),
+                '#type' => 'textarea',
+                '#rows' => '3',
+                '#required' => FALSE,
+//        '#description' => t('()'),
+            );
+            break;
+        default:
+            break;
+    }
+
+
+//    $commands = array();
+//    $commands[] = ajax_command_replace('.next-question', 'It works!');
+//
+//    return array('#type' => 'ajax', '#commands' => $commands);
+    return $next_question;
+//    return $form['decision']['next-question'];
+//    return form_process_radios($form['decision']['next-question']);
+//    return $form['decision']['next-question'];
+//    return form_process_radios($form['decision']['next-question']);
+}
+

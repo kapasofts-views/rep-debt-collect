@@ -27,6 +27,7 @@ stylesheets[all][] = css/custom.css
 
 
 ; JS
+;scripts[] = js/rental_ajax_commands.js
 scripts[] = js/google-tracking.js
 scripts[] = js/lib/underscore-min.js
 scripts[] = js/lib/backbone-min.js
@@ -35,6 +36,7 @@ scripts[] = js/lib/handlebars.runtime.js
 scripts[] = js/lib/handlebars.runtime.js
 scripts[] = js/convertix/lightbox.js
 scripts[] = js/convertix/main.js
+
 
 
 settings[toggle_name] = 0

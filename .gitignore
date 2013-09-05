@@ -1,5 +1,6 @@
 #Ignoring the Rewrite File
 .htaccess
+.gradle/*
 
 # Ignore configuration files that may contain sensitive information.
 sites/*/settings*.php
