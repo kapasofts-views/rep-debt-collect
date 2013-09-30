@@ -10,7 +10,7 @@
  */
 function debt_collection_menu() {
     $items['form'] = array(
-        'title' => 'Publication Info',
+        'title' => '',
         'description' => 'Collecting Info About Publication',
         'page callback' => 'debt_collection_publication_page',
 //        'page arguments' => array('fruit_simple_form'),
@@ -58,10 +58,11 @@ function collect_publication_info_form($form, &$form_submit) {
         '#description' => t(''),
     );
 
+
     $form['publisher']['package'] = array(
         '#title' => t('Which plan do you choose?'),
         '#type' => 'radios',
-        '#options' => array('basic' => t('Basic - $75'), 'plus' => t('Plus - $125'), 'unlimited' => t('Unlimited - $200')),
+        '#options' => generate_prod_list(),
         '#required' => TRUE,
     );
 
@@ -69,7 +70,7 @@ function collect_publication_info_form($form, &$form_submit) {
         '#title' => 'About Debtor',
         '#type' => 'fieldset',
         '#collapsible' => TRUE,
-        '#collapsed' => FALSE,
+        '#collapsed' => TRUE,
     );
 
     $form['debtor']['debtor_first_name'] = array(
@@ -108,7 +109,7 @@ function collect_publication_info_form($form, &$form_submit) {
         '#title' => 'History of Events Leading To Current Situation',
         '#type' => 'fieldset',
         '#collapsible' => TRUE,
-        '#collapsed' => FALSE,
+        '#collapsed' => TRUE,
     );
 
     $form['events']['event-one'] = array(
@@ -143,7 +144,7 @@ function collect_publication_info_form($form, &$form_submit) {
         '#title' => 'Financial Obligations of Debtor',
         '#type' => 'fieldset',
         '#collapsible' => TRUE,
-        '#collapsed' => FALSE,
+        '#collapsed' => TRUE,
     );
     $form['obligations']['financial-obligations-one'] = array(
         '#title' => t(''),
@@ -195,6 +196,94 @@ function collect_publication_info_form($form, &$form_submit) {
         '#value' => 'Submit',
     );
   return $form;
+}
+
+function generate_prod_list(){
+    $product_ids = array('1', '2', '3');
+    $products = entity_load('commerce_product', $product_ids);
+    $display_prods = array();
+    foreach(array_keys($products) as $key => $prod_id){
+        $plan_name = strtoupper(substr($products[$prod_id]->sku,13 ));
+        $price = substr($products[$prod_id]->commerce_price[LANGUAGE_NONE][0]['amount'],0,-2);
+        $maintenance_fee = $products[$prod_id]->field_maintenance_fee[LANGUAGE_NONE][0]['value'];
+
+        $tids = array();
+        $multilingual_support_id = $products[$prod_id]->field_multilingual_support_produ[LANGUAGE_NONE][0]['tid'];
+        $tids[] = $multilingual_support_id;
+        $designs_avail_id = $products[$prod_id]->field_designs_available_product[LANGUAGE_NONE][0]['tid'];
+        $tids[] = $designs_avail_id;
+        $search_rank_id = $products[$prod_id]->field_rank_in_search_engines[LANGUAGE_NONE][0]['tid'];
+        $tids[] = $search_rank_id;
+        $payment_sys_id = $products[$prod_id]->field_online_payment_sys[LANGUAGE_NONE][0]['tid'];
+        $tids[] = $payment_sys_id;
+        $cms_id = $products[$prod_id]->field_content_management_sys[LANGUAGE_NONE][0]['tid'];
+        $tids[] = $cms_id;
+        $reminder_id = $products[$prod_id]->field_debt_reminder[LANGUAGE_NONE][0]['tid'];
+        $tids[] = $reminder_id;
+        $social_id = $products[$prod_id]->field_social_networks[LANGUAGE_NONE][0]['tid'];
+        $tids[] = $social_id;
+
+        $taxonomies = taxonomy_term_load_multiple($tids);
+        $popup_title_raw = '<div class="prc popover-prc prc-header2"> <h1> '.$plan_name.' </h1> <p> All you need get started </p> <small> </small>  <h3>'.$price.' <strong>$</strong></h3> <p>setup fee</p></div>';
+
+        $popup_title = htmlentities($popup_title_raw);
+        $popup_content_raw = '';
+        $popup_content_raw .= '<div class="prc prc-body prc-body-popover">';
+        $popup_content_raw .= '        <p> Ranks '.$taxonomies[$search_rank_id]->name.' In Search Results </p>';
+        if($taxonomies[$search_rank_id]->name != "1 - 3"){
+            $popup_content_raw .= '<span>or better</span>';
+        }
+        $popup_content_raw .= '                <small></small>';
+        if($taxonomies[$multilingual_support_id]->name == 'One'){
+            $popup_content_raw .= '       <p> Translated In '.$taxonomies[$multilingual_support_id]->name.' Language </p>';
+            $popup_content_raw .= '                <small></small>';
+        }else{
+            $popup_content_raw .= '       <p> Translated In '.$taxonomies[$multilingual_support_id]->name.' Languages </p>';
+            $popup_content_raw .= '                <small></small>';
+        }
+
+        if($taxonomies[$designs_avail_id]->name == 'One'){
+            $popup_content_raw .= '      <p> '.$taxonomies[$designs_avail_id]->name.' Design To Choose </p>';
+            $popup_content_raw .= '        <small></small>';
+        }else{
+            $popup_content_raw .= '      <p> '.$taxonomies[$designs_avail_id]->name.' Designs To Choose </p>';
+            $popup_content_raw .= '        <small></small>';
+        }
+
+        if($taxonomies[$payment_sys_id]->name == 'Yes'){
+            $popup_content_raw .= '                <p> Online Payment System</p>';
+            $popup_content_raw .= '<span>tight to your account</span>';
+            $popup_content_raw .= '        <small></small>';
+        }
+        if($taxonomies[$cms_id]->name == 'Yes'){
+            $popup_content_raw .= '      <p> Manage Content Any Time </p>';
+            $popup_content_raw .= '        <small></small>';
+        }
+
+        if($taxonomies[$reminder_id]->name == 'Yes'){
+            if($prod_id == 2){
+                $popup_content_raw .= '                <p>Debtor Receives Reminder Monthly</p>';
+            }else{
+                $popup_content_raw .= '                <p>Debtor Receives Reminder Weekly</p>';
+            }
+            $popup_content_raw .= '<span>along with # of views other stats</span>';
+            $popup_content_raw .= '        <small></small>';
+        }
+
+        if($taxonomies[$social_id]->name == 'Yes'){
+            $popup_content_raw .= '                <p>Publicized Social Networks </p>';
+            $popup_content_raw .= '<span>Twitter, Facebook and others Debtor social space</span>';
+            $popup_content_raw .= '        <small></small>';
+        }
+
+        $popup_content_raw .= '       <p>$'.$maintenance_fee.' Maintenance Fee(monthly)  </p>';
+        $popup_content_raw .= '<span>to keep public</span>';
+        $popup_content_raw .= '            </div>';
+
+        $popup_content = htmlentities($popup_content_raw);
+        $display_prods[$prod_id] = "<a href='#' data-toggle='popover' id='popup-".$plan_name."' data-trigger='hover focus' data-title='".$popup_title."' data-content='".$popup_content."' >".$plan_name." - $".$price."</a>";
+    }
+    return $display_prods;
 }
 
 function collect_feedback_info_form($form, &$form_submit) {
@@ -297,7 +386,8 @@ function debt_collection_publication_page() {
     $build = array(
         'header_text' => array(
             '#type' => 'markup',
-            '#markup' => '<p class="lead">' . t('Please, fill out this form, so the publication can be created.') . '</p>',
+            '#markup' => '<p class="lead">' . t('You will be able edit, update the publicized content as you like later...just to get started
+') . '</p>',
         ),
         'example_form' => drupal_get_form('collect_publication_info_form'),
     );
@@ -315,13 +405,10 @@ function debt_collection_feedback_page() {
     return $build;
 }
 
-function collect_feedback_info_form_validate($form, &$form_state){
-    //var_dump('validating');
-}
+//function collect_feedback_info_form_validate($form, &$form_state){
+//    //var_dump('validating');
+//}
 
-function collect_feedback_info_form_validate2($form, &$form_state){
-    //var_dump('validating');
-}
 
 function collect_feedback_info_form_submit2($form, &$form_state){
     // Create a node object, and add node properties.
@@ -385,6 +472,29 @@ function collect_feedback_info_form_submit($form, &$form_state){
 }
 
 function collect_publication_info_form_submit($form, &$form_state) {
+
+    //adding product to shopping cart
+//    module_load_include('module', 'commerce', 'modules/cart/commerce_cart');
+//    $form_state['values']['product_id'] = 2;
+//    $form_state['values']['quantity'] = 1;
+//    $form_state['line_item']->data = array();
+//    $form_state['line_item']->type = null;
+//    $form_state['values']['line_item_fields'] = array();
+//    $form['line_item_fields'] = null;
+//    commerce_cart_add_to_cart_form_submit($form, $form_state);
+
+    $default_quantity = 1;
+    $product_id = array($form['publisher']['package']['#value']);
+    $product = entity_load('commerce_product', $product_id);
+//            $product = commerce_product_load(1);//default product
+    // Build the line item we'll pass to the Add to Cart form.
+    $line_item = commerce_product_line_item_new($product[$product_id[0]], $default_quantity);
+    $form_state['line_item'] = commerce_cart_product_add(
+        0,
+        $line_item,
+        TRUE
+    );
+
     // Create a node object, and add node properties.
     $newNode = new stdClass;//or (object) NULL
     $newNode->type = 'publication';
@@ -418,9 +528,14 @@ function collect_publication_info_form_submit($form, &$form_state) {
 
     // Display a message upon successful submission.
 //    drupal_set_message(t("I like @fruit, too!", array('@fruit' =>$form_state['values']['fruit'])));
-     drupal_set_message(t('Thank you for submitting necessary information for publication. Please, allow us 48h to publish the publication once the payment is received. An email with details on how to make payment will be send to you shortly'));
+//     drupal_set_message(t('Thank you for submitting necessary information for publication. Please, allow us 48h to publish the publication once the payment is received. An email with details on how to make payment will be send to you shortly'));
     $newNode = node_submit($newNode);
     node_save($newNode);
+
+    unset($_REQUEST['destination']);
+    unset($form['#redirect']);
+
+    $form_state['redirect']  = 'checkout';
 }
 
 /**

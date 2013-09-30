@@ -1,0 +1,7 @@
+name = Select Product
+description = form for selecting product
+core = 7.x
+;version = 7.x-0.1-dev ;to show up in the admin ui
+package = KapaSoft
+files[] = select_product.module
+;dependencies = module1

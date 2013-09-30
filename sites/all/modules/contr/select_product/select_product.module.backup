@@ -1,0 +1,52 @@
+<?php
+
+
+function select_product_block_info(){
+    $blocks = array();
+
+    $blocks['select_product'] = array(
+        'info' => t('KapaSoft: Add to Cart Block'),//admin ui block name
+    );
+
+    return $blocks;
+}
+
+function select_product_block_view($delta = ''){
+    $blocks = array();
+    switch($delta){
+        case 'select_product':{
+            $blocks['subject'] = t('Select Product');
+            $blocks['content'] = select_product_block_contents($delta);
+            break;
+        }
+    }
+    return $blocks;
+}
+
+function select_product_block_contents($delta){
+    $output = '';
+    switch($delta){
+        case 'select_product':{
+            $default_quantity = 1;
+            $product_ids = array('1', '2', '3');
+            $products = entity_load('commerce_product', $product_ids);
+//            $product = commerce_product_load(1);//default product
+            // Build the line item we'll pass to the Add to Cart form.
+            $line_item = commerce_product_line_item_new($products[1], $default_quantity);
+            $line_item->data['context']['product_ids'] = array_keys($products);
+//            $line_item->data['context']['add_to_cart_combine'] = $this->options['combine'];
+
+            // Generate a form ID for this add to cart form.
+            $form_id = commerce_cart_add_to_cart_form_id($product_ids, $default_quantity);
+            $line_item->data['context']['display_path'] = current_path();
+
+            $form = drupal_get_form($form_id, $line_item, false, array());
+
+
+            $output .= drupal_render($form);
+
+            break;
+        }
+    }
+    return $output;
+}

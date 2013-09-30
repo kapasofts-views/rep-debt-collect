@@ -15,11 +15,6 @@
 
 /**********PopUp Newsletter**********/
 
-#newsletter{
-    width:1000px;
-    /*height: 300px;*/
-}
-
 .modal{
     left:33%;
     background-color: transparent;
@@ -48,8 +43,10 @@ a.signup-button {
     /*line-height: 21px;*/
     letter-spacing:1px;
 }
-a.signup-button:hover {
 
+
+a.next-to-demo{
+    float: left;
 }
 
 /**LOgo*****/
@@ -132,3 +129,246 @@ legend{
 .min_margin{
     margin-bottom: 0px;
 }
+
+/********PopOver in Form*********/
+.popover-title{
+    padding:0px 0px;
+}
+
+div.popover h1{
+    text-align: center;
+    padding-top: 20px;
+}
+
+div.popover-prc h3{
+    padding-top: 10px;
+}
+
+.popover-prc{
+    border: none;
+    /*line-height: 16px;*/
+}
+
+.popover-content{
+    padding:0px 0px;
+}
+
+.popover .prc-body{
+    padding: 10px 0px;
+}
+
+.popover .prc-header2{
+    background-position:39% center;
+}
+
+.prc-body-popover span{
+    color:white;
+    font-size: 11px;
+    text-align: center;
+    display: block;
+    font-weight: lighter;
+    position: relative;
+    top:-5px;
+    font-family: 'Orienta',sans-serif;
+}
+
+/*******Nav Menu For Sign Up*********/
+div.btn-group{
+    width: 100%;
+}
+div.btn-group button{
+    width: 33%;
+}
+
+/*div.not-main{*/
+#main_product.not-main{
+    height: 100px;
+    padding-top: 20px;
+    margin-bottom: 0px;
+}
+
+.not-main .main_p1{
+    min-height: 100px;
+    /*margin-bottom: 20px;*/
+}
+
+td.views-field-line-item-title{
+    text-align: left;
+}
+
+.center-content tr td:first-child{
+    text-align: left;
+}
+
+.not-main .main_p1 h2{
+    line-height: 16px;
+}
+
+.center-content{
+    margin-top: 20px;
+    min-height: 300px;
+}
+
+.btn-group{
+    margin-bottom: 20px;
+}
+
+div.checkout-help, div.form-item-commerce-payment-payment-method{
+    display: none;
+}
+
+div.site-menu{
+    /*border:solid thin red;*/
+    float: left;
+    width:52%;
+}
+
+div.phone{
+    /*border:solid thin green;*/
+    float: right;
+    width: 45%;
+    text-align: right;
+}
+
+div.menu{
+    /*border: solid thin yellow;*/
+    width:55%;
+    height: 1px;
+    float: right;
+    text-align: right;
+}
+
+div.menu .navi{
+    padding-top: 0px;
+}
+
+div.logo{
+    float: left;
+    width: 40%;
+}
+
+ul.social li{
+    float:right;
+}
+
+ul.social2 li{
+    display: inline-block;
+    float: none;
+}
+
+li.active a{
+    color: black;
+}
+/********Contact Us ********/
+iframe.map-iframe{
+    margin-left: 0px;
+}
+
+div.contact-us-section{
+    padding-left: 0px;
+}
+
+#map_canvas {
+    /*width: 500px;*/
+    margin-left: 0px;
+    height: 300px;
+}
+
+div.contact-form textarea{
+    height: 100px;
+    font-weight: 400;
+    font-size:14px;
+    padding: 4px 6px;
+    line-height: 20px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+div.contact-form button{
+    font-size: 17px;
+    font-weight: 100;
+    letter-spacing: 1px;
+    background: url("../img/signup-button.png") no-repeat scroll 0 0 rgba(0,0,0,0);
+    margin: 0 auto;
+    padding: 12px 0;
+    width: 130px;
+    color: #949292;
+    font-family: 'Signika',sans-serif;
+    text-align: center;
+    vertical-align: baseline;
+    line-height: 17px;
+    border:0 none;
+    text-decoration: none;
+    border: none;
+    /*border: solid thin #949292;*/
+    text-shadow: none;
+}
+
+div.contact-form button:hover{
+    font-size: 17px;
+    font-weight: 100;
+    letter-spacing: 1px;
+    background:url("../img/signup-button.png") no-repeat scroll 0 100% rgba(0,0,0,0);
+    margin: 0 auto;
+    padding: 12px 0;
+    width: 130px;
+    color: #949292;
+    font-family: 'Signika',sans-serif;
+    text-align: center;
+    vertical-align: baseline;
+    line-height: 17px;
+    border:none;
+    text-decoration: none;
+    /*border: solid thin #949292;*/
+    text-shadow: none;
+}
+
+/******FAQ*******/
+div.accordion-heading a{
+    color:#757575;
+}
+
+.basic-page{
+   margin-top: 0px;
+}
+
+/********HOME**********/
+.buttons{
+    /*width: 400px;*/
+}
+
+a.small-trial-button{
+    background-image: url("../img/skins/small-trial-button-orange-without-text.png");
+    margin: 0 auto;
+    padding: 14px 0;
+    display: block;
+    font-size:17px;
+    font-weight: 100;
+    letter-spacing: 1px;
+    text-align: center;
+    font-family: 'Signika',sans-serif;
+    height: 19px;
+    color: #ba2700;
+    text-decoration: none;
+}
+
+/******Sample Modal********/
+
+.modal-header{
+    background-color: white;
+}
+
+.modal-body-demo{
+    padding: 0;
+    width:875px;
+    height: 505px;
+    overflow-y: auto;
+}
+/*.modal-body{*/
+    /*max-height: 100%;*/
+/*}*/
+
+#pubSample{
+    min-width:875px;
+    min-height: 505px;
+}
+

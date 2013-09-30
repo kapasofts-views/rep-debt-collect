@@ -1,7 +1,21 @@
+<?php //print render($page['select_product']); ?>
 
-<div class="main-container container"
-
-  <div class="row">
+<!--<div class="main-container container">-->
+<div id="main_product" class="not-main">
+    <div class="container wrapper">
+    <div class="main_p1">
+        <h1>Information Get Publicized</h1>
+        <h2>This is more than recovering your money. It is helping many more people to avoid financial scams and untrustworthy individuals</h2>
+    </div>
+    </div>
+</div>
+    <div class="container wrapper center-content">
+        <div class="btn-group">
+            <button class="btn btn-large active">Information</button>
+            <button class="btn btn-large">Billing</button>
+            <button class="btn btn-large">Review</button>
+        </div>
+<!--    <div class="row">-->
 
     <?php if (!empty($page['sidebar_first'])): ?>
       <aside class="span3" role="complementary">
@@ -9,17 +23,12 @@
       </aside>  <!-- /#sidebar-first -->
     <?php endif; ?>  
 
-    <section class="<?php print _bootstrap_content_span($columns); ?>">  
+<!--    <section class="--><?php //print _bootstrap_content_span($columns); ?><!--">  -->
       <?php if (!empty($page['highlighted'])): ?>
         <div class="highlighted hero-unit"><?php print render($page['highlighted']); ?></div>
       <?php endif; ?>
-      <?php if (!empty($breadcrumb)): print $breadcrumb; endif;?>
+<!--      --><?php //if (!empty($breadcrumb)): print $breadcrumb; endif;?>
       <a id="main-content"></a>
-      <?php print render($title_prefix); ?>
-      <?php if (!empty($title)): ?>
-        <h1 class="muted"><?php print $title; ?></h1>
-      <?php endif; ?>
-      <?php print render($title_suffix); ?>
       <?php print $messages; ?>
       <?php if (!empty($tabs)): ?>
         <?php print render($tabs); ?>
@@ -31,12 +40,17 @@
         <ul class="action-links"><?php print render($action_links); ?></ul>
       <?php endif; ?>
       <?php print render($page['content']); ?>
-    </section>
+<!--    </section>-->
 
     <?php if (!empty($page['sidebar_second'])): ?>
       <aside class="span3" role="complementary">
         <?php print render($page['sidebar_second']); ?>
       </aside>  <!-- /#sidebar-second -->
     <?php endif; ?>
-  </div>
+<!--  </div>-->
 </div>
+<script type="text/javascript">
+    (function ($) {
+        $("[data-toggle='popover']").popover({ html : true });
+    })(jQuery);
+</script>

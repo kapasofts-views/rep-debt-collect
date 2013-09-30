@@ -7,10 +7,10 @@
   <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta content="yes" name="apple-mobile-web-app-capable">
-  <meta name="description" content="Unpaid Payment, Bounced Check, Unpaid Salary, Not Paying Rent EFFECTIVE WAY GET MONEY BACK!"/>
-  <meta name="keywords" content="money get back, overdue payments, bad check laws, get my money back, bounced check, how to get money back from a friend, can i get my money back, how to get your money back, overdue invoice, rent collect, bad check, collecting rent, tenant failure to pay rent"/>
+  <?php echo '<meta name="description" content="'.$seo['desc'].'"/>'."\n";?>
+  <?php echo '<meta name="keywords" content="'.$seo['keywords'].'"/>';?>
   <?php print $head; ?>
-  <title>Get My Money Back</title>
+  <?php echo '<title>'.$seo['title'].'</title>';?>
     <script>
         var NEWSLETTER = (function () {
             return {
