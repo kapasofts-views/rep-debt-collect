@@ -11,8 +11,9 @@
     <div class="container wrapper">
         <div class="main_p1">
             <h1>An Effective Way Get Money Back </h1>
-           <h2>Reputation is the most important thing especially for your debtor!</h2>
+           <h2>Help others avoid financial scam, untrustworthy individuals</h2>
             <ul class="features-1 ">
+                <li> Reputation is the most important thing especially for your debtor! </li>
                 <li> More people use Google search as first attempt for information</li>
                 <li> In past, debts were published in newspaper as means to collect</li>
                 <li> Today we publish it internet anywhere and endlessly till money repaid </li>

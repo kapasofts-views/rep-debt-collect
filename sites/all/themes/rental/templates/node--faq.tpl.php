@@ -5,26 +5,29 @@
       <div class="accordion-group">
           <div class="accordion-heading">
               <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-                  Can I remain anonymous when publicizing information?
+                  Is it legal to publicize information about the debt, financial scam and its related information?
               </a>
           </div>
           <div id="collapseOne" class="accordion-body collapse in">
               <div class="accordion-inner">
-                  Yes. It is publicized only the information about the debt or financial scam and its related information. The information about the victim of
-                  the financial loss is not disclosed unless you specifically request it to be so. To see a sample of publicized info,
-                  please, <a target="_blank" href="/sample">click here</a>
+                  Yes. The First Amendment of US Constitution gives the right of free speech including publicize facts about another individual, however.
+                  This right is only supported by Law if facts presented are truthful and accurate. It is your accountability of the facts presented in your publication.
+                  We do not verify or provide any other function but publicize.
+                  We are registered and operate in US and, thus, enjoy the guarantees of US Constitution
               </div>
           </div>
       </div>
       <div class="accordion-group">
           <div class="accordion-heading">
               <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-                  Is it legal to publicize information about the debt, financial scam and its related information?
+                  Can I remain anonymous when publicizing information?
               </a>
           </div>
           <div id="collapseTwo" class="accordion-body collapse">
               <div class="accordion-inner">
-                  If the information publicized is trustful and accurate, then it is legal to publicize in US which is the location of operations for WantMyBucksBack.com and we are regulated by US law.
+                  Yes. It is publicized only the information about the debt or financial scam and its related information. The information about the victim of
+                  the financial loss is not disclosed unless you specifically request it to be so. To see a sample of publicized info,
+                  please, <a target="_blank" href="/sample">click here</a>
               </div>
           </div>
       </div>
@@ -52,10 +55,7 @@
           <div id="collapseFour" class="accordion-body collapse">
               <div class="accordion-inner">
                   Yes. We would also publicize the debtor's response to your publicized information if he/she requests. This is because we pride ourselves for providing
-                  equal and fear platform to publicize information for all. Our philosophy is that we believe each individual is critical thinker who is able to decide the truthfulness
-                  of the publicized information on his own. Therefore, it is good reason for you to publicize as much evidence as possible, so others have enough information
-                  when evaluating your publicized information. While debtor can publicize their response to your publicized information, you will always have the chance to comment last and
-                  update your publicized info content as you wish.
+                  equal and fear platform to publicize information for all
               </div>
           </div>
       </div>
